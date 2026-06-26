@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparativa de Deportes</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+body {
+    line-height: 1.6;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+/* Barra de navegación */
+nav {
+    background-color: #2c4780;
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.titulo-proyecto {
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+nav a:hover {
+    color: #a8d1ff;
+}
+
+/* Encabezado mejorado */
+.encabezado {
+    background: linear-gradient(rgba(15, 35, 80, 0.75), rgba(15, 35, 80, 0.75)), url('img/deportes.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: #ffffff;
+    padding: 4rem 5%;
+    text-align: left;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.encabezado h1 {
+    font-size: 2.6rem;
+    font-weight: bold;
+    margin-bottom: 1.2rem;
+    line-height: 1.2;
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.85);
+    letter-spacing: 0.5px;
+}
+
+.encabezado p {
+    font-size: 1.25rem;
+    max-width: 900px;
+    line-height: 1.6;
+    opacity: 0.98;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+    margin: 0;
+}
+
+/* Contenido general */
+.contenedor {
+    max-width: 1000px;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+}
+h2 {
+    color: #2c4780;
+    margin-bottom: 1.2rem;
+    font-size: 1.8rem;
+}
+p {
+    margin-bottom: 1.2rem;
+    text-align: justify;
+    font-size: 1.05rem;
+}
+        table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #2c4780;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f0f4f9;
+        }
+        p {
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="titulo-proyecto">Proyecto: Mi pagina</div>
+        <ul>
+            <li><a href="inicio.html">Inicio</a></li>
+            <li><a href="acerca.html">Acerca de mí</a></li>
+            <li><a href="deportes.html">Deportes</a></li>
+            <li><a href="comparativa.html">Comparativa</a></li>
+            <li><a href="curiosidades.html">Curiosidades</a></li>
+        </ul>
+    </nav>
+
+    <header class="encabezado">
+        <h1>Comparativa entre Deportes</h1>
+        <p>Revisa las diferencias en reglas, duración y características principales</p>
+    </header>
+
+    <div class="contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th>Deporte</th>
+                    <th>Jugadores por equipo</th>
+                    <th>Duración aproximada</th>
+                    <th>Espacio de juego</th>
+                    <th>Equipo principal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Fútbol</td>
+                    <td>11</td>
+                    <td>90 minutos</td>
+                    <td>Cancha rectangular de césped</td>
+                    <td>Balón, uniforme, protecciones</td>
+                </tr>
+                <tr>
+                    <td>Baloncesto</td>
+                    <td>5</td>
+                    <td>40 a 48 minutos</td>
+                    <td>Pista cubierta o exterior</td>
+                    <td>Balón, aros, tableros</td>
+                </tr>
+                <tr>
+                    <td>Voleibol</td>
+                    <td>6</td>
+                    <td>Hasta ganar 3 sets</td>
+                    <td>Pista o cancha de arena</td>
+                    <td>Balón, red, postes</td>
+                </tr>
+                <tr>
+                    <td>Tenis</td>
+                    <td>1 o 2</td>
+                    <td>Hasta ganar 2 o 3 sets</td>
+                    <td>Pista dura, arcilla o césped</td>
+                    <td>Raqueta, pelota</td>
+                </tr>
+                <tr>
+                    <td>Béisbol</td>
+                    <td>9</td>
+                    <td>9 entradas (sin límite fijo)</td>
+                    <td>Campo en forma de diamante</td>
+                    <td>Bate, pelota, guante, casco</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Como se puede observar, cada deporte tiene reglas y dinámicas distintas. Mientras algunos requieren mayor resistencia aeróbica, otros se basan más en la velocidad, la coordinación o la estrategia. A pesar de sus diferencias, todos comparten la misma esencia: el trabajo en equipo, la competencia sana y el respeto por las reglas y por el rival.</p>
+    </div>
+</body>
+</html>
