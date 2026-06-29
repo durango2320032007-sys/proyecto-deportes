@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los Deportes más Populares del Mundo | Proyecto Final</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --color-primario: #165DFF;
+            --color-secundario: #00A3FF;
+            --color-oscuro: #1E293B;
+            --color-claro: #F8FAFC;
+            --color-gris: #64748B;
+            --color-exito: #10B981;
+            --sombra: 0 4px 12px rgba(0,0,0,0.1);
+            --sombra-elevada: 0 8px 24px rgba(0,0,0,0.15);
+            --borde-redondo: 12px;
+            --transicion: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background-color: var(--color-claro);
+            color: var(--color-oscuro);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Navegación */
+        nav {
+            background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--sombra);
+            transition: var(--transicion);
+        }
+
+        nav.scrolled {
+            padding: 0.7rem 2rem;
+            background: rgba(22, 93, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-contenedor {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 42px;
+            width: auto;
+            border-radius: 6px;
+            background: white;
+            padding: 3px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .enlaces-nav {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .enlaces-nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transicion);
+            position: relative;
+            padding: 0.3rem 0;
+        }
+
+        .enlaces-nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: white;
+            transition: var(--transicion);
+        }
+
+        .enlaces-nav a:hover {
+            opacity: 1;
+        }
+
+        .enlaces-nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Encabezado principal */
+        header {
+            background: linear-gradient(rgba(22, 93, 255, 0.85), rgba(0, 163, 255, 0.85)), 
+                        url('img/logo.png') center/cover no-repeat;
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.05);
+            transform: rotate(45deg);
+            top: -50%;
+            left: -50%;
+            animation: moverFondo 20s linear infinite;
+        }
+
+        @keyframes moverFondo {
+            0% { transform: rotate(45deg) translate(0,0); }
+            100% { transform: rotate(45deg) translate(50%,50%); }
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+            animation: aparecerArriba 1s ease-out;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+            position: relative;
+            animation: aparecerArriba 1.2s ease-out;
+        }
+
+        @keyframes aparecerArriba {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Contenedor general */
+        .contenedor {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Secciones generales */
+        .seccion-intro {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: var(--borde-redondo);
+            box-shadow: var(--sombra);
+            margin-bottom: 3rem;
+            transition: var(--transicion);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .seccion-intro.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .seccion-intro:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--sombra-elevada);
+        }
+
+        .seccion-intro h2 {
+            color: var(--color-primario);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        /* Tarjetas de deportes */
+        .grid-deportes {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .tarjeta-deporte {
+            background-color: white;
+            border-radius: var(--borde-redondo);
+            box-shadow: var(--sombra);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 0;
+            transition: var(--transicion);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .tarjeta-deporte.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tarjeta-deporte:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: var(--sombra-elevada);
+        }
+
+        .imagen-deporte {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transicion);
+        }
+
+        .tarjeta-deporte:hover .imagen-deporte {
+            transform: scale(1.05);
+        }
+
+        .contenido-deporte {
+            padding: 2rem;
+        }
+
+        .contenido-deporte h2 {
+            color: var(--color-primario);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--color-secundario);
+            padding-bottom: 0.3rem;
+        }
+
+        .datos-basicos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            background-color: var(--color-claro);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1.2rem 0;
+            transition: var(--transicion);
+        }
+
+        .datos-basicos:hover {
+            background-color: #eef2ff;
+        }
+
+        .dato {
+            font-weight: 500;
+        }
+
+        .dato span {
+            font-weight: normal;
+            color: var(--color-gris);
+        }
+
+        .subtitulo {
+            font-weight: bold;
+            color: var(--color-oscuro);
+            margin: 1rem 0 0.5rem;
+            display: block;
+        }
+
+        ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        ul li {
+            position: relative;
+            margin-bottom: 0.3rem;
+            transition: var(--transicion);
+        }
+
+        ul li:hover {
+            color: var(--color-primario);
+            transform: translateX(5px);
+        }
+
+        /* Pestañas de información */
+        .pestanas {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .pestana {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: var(--color-gris);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transicion);
+        }
+
+        .pestana.activa {
+            color: var(--color-primario);
+            border-bottom: 3px solid var(--color-secundario);
+        }
+
+        .contenido-pestana {
+            display: none;
+            animation: aparecer 0.5s ease;
+        }
+
+        .contenido-pestana.activo {
+            display: block;
+        }
+
+        @keyframes aparecer {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Tabla comparativa */
+        .seccion-tabla {
+            background-color: white;
+            padding: 2rem;
+            border-radius: var(--borde-redondo);
+            box-shadow: var(--sombra);
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .seccion-tabla.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .seccion-tabla h2 {
+            color: var(--color-primario);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .tabla-comparativa {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .tabla-comparativa th, 
+        .tabla-comparativa td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+            transition: var(--transicion);
+        }
+
+        .tabla-comparativa th {
+            background-color: var(--color-primario);
+            color: white;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tabla-comparativa th:hover {
+            background-color: #004ed9;
+        }
+
+        .tabla-comparativa tr {
+            transition: var(--transicion);
+        }
+
+        .tabla-comparativa tr:hover {
+            background-color: #f1f5f9;
+            transform: scale(1.005);
+        }
+
+        .tabla-comparativa tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        /* Datos curiosos */
+        .seccion-curiosidades {
+            background: linear-gradient(135deg, #EFF6FF, #F0FDFA);
+            padding: 2rem;
+            border-radius: var(--borde-redondo);
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .seccion-curiosidades.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .seccion-curiosidades h2 {
+            color: var(--color-primario);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .lista-curiosidades {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .curiosidad {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: var(--transicion);
+            border-left: 4px solid var(--color-secundario);
+        }
+
+        .curiosidad:hover {
+            transform: translateY(-5px) rotate(1deg);
+            box-shadow: var(--sombra);
+        }
+
+        .curiosidad h3 {
+            color: var(--color-secundario);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Acerca de mí */
+        .seccion-acercademi {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: var(--borde-redondo);
+            box-shadow: var(--sombra);
+            margin-bottom: 3rem;
+            transition: var(--transicion);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .seccion-acercademi.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .seccion-acercademi:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--sombra-elevada);
+        }
+
+        .seccion-acercademi h2 {
+            color: var(--color-primario);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        /* Contenedor con imagen a la DERECHA */
+        .contenedor-acercademi {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2.5rem;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .foto-perfil {
+            text-align: center;
+        }
+
+        .foto-perfil img {
+            width: 100%;
+            max-width: 220px;
+            height: auto;
+            border-radius: var(--borde-redondo);
+            box-shadow: var(--sombra);
+            object-fit: cover;
+            border: 3px solid #EFF6FF;
+        }
+
+        .datos-personales p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            padding: 0.5rem 0;
+        }
+
+        .datos-personales strong {
+            color: var(--color-primario);
+            min-width: 160px;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        /* Estilo para "Lo que me gusta" */
+        .gustos {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .gustos h3 {
+            color: var(--color-secundario);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .gustos ul {
+            list-style: none;
+            padding-left: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .gustos li {
+            background: linear-gradient(135deg, #EFF6FF, #F0FDFA);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            border-left: 4px solid var(--color-primario);
+            transition: var(--transicion);
+        }
+
+        .gustos li:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--sombra);
+            color: var(--color-primario);
+        }
+
+        /* Referencias Bibliográficas */
+        .seccion-referencias {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: var(--borde-redondo);
+            box-shadow: var(--sombra);
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .seccion-referencias.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .seccion-referencias h2 {
+            color: var(--color-primario);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .lista-referencias {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .lista-referencias li {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-left: 3px solid var(--color-secundario);
+            background-color: var(--color-claro);
+            border-radius: 4px;
+            transition: var(--transicion);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .lista-referencias li:hover {
+            background-color: #eef2ff;
+            transform: translateX(5px);
+        }
+
+        /* Botón volver arriba */
+        .btn-arriba {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: var(--sombra);
+            transition: var(--transicion);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 99;
+        }
+
+        .btn-arriba.activo {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .btn-arriba:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--sombra-elevada);
+        }
+
+        /* Pie de página */
+        footer {
+            background-color: var(--color-oscuro);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 2rem;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-contenido {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Adaptación para móviles */
+        @media (max-width: 900px) {
+            .tarjeta-deporte {
+                grid-template-columns: 1fr;
+            }
+            header h1 {
+                font-size: 2rem;
+            }
+            .enlaces-nav {
+                justify-content: center;
+                margin-top: 0.5rem;
+            }
+            .pestanas {
+                flex-wrap: wrap;
+            }
+            /* En pantallas pequeñas, se apila todo */
+            .contenedor-acercademi {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .foto-perfil img {
+                max-width: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-contenedor {
+                justify-content: center;
+                text-align: center;
+            }
+            .logo {
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Botón volver arriba -->
+    <button class="btn-arriba" id="btnArriba">↑</button>
+
+    <!-- Menú de navegación -->
+    <nav id="menu">
+        <div class="nav-contenedor">
+            <a href="#" class="logo">
+                <img src="img/logo.png" alt="Logo Deportes Mundiales">
+                Proyecto: Los deportes más populares
+            </a>
+            <div class="enlaces-nav">
+                <a href="#inicio">Inicio</a>
+                <a href="#acerca">Acerca de mí</a>
+                <a href="#deportes">Deportes</a>
+                <a href="#comparativa">Comparativa</a>
+                <a href="#curiosidades">Curiosidades</a>
+                <a href="#referencias">Referencias</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Encabezado -->
+    <header id="inicio">
+        <h1>Los Deportes más Populares del Mundo</h1>
+        <p>Análisis completo, historia, reglas, datos y características de las disciplinas deportivas con mayor impacto y seguimiento a nivel mundial</p>
+    </header>
+
+    <main class="contenedor">
+
+        <!-- Acerca de mí -->
+        <section id="acerca" class="seccion-acercademi animar">
+            <h2>Acerca de mí</h2>
+            <div class="contenedor-acercademi">
+                <!-- Datos personales a la IZQUIERDA -->
+                <div class="datos-personales">
+                    <p><strong>Nombre completo:</strong> Ruben Garay Medina</p>
+                    <p><strong>Grado y Semestre:</strong> Bachillerato / 6° Semestre</p>
+                    <p><strong>Institución:</strong> CEMSaD Durango</p>
+                    <p><strong>Fecha de elaboración:</strong> 29 de junio de 2026</p>
+                    <p><strong>Correo electronico:</strong> durango.2320032007@cobaeh.edu.mx</p>
+                    <p><strong>Num. Telefono:</strong> 7713595529</p>
+                </div>
+                <!-- Imagen a la DERECHA -->
+                <div class="foto-perfil">
+                    <img src="img/caine.jpg" alt="Foto personal">
+                </div>
+            </div>
+
+            <!-- Lo que me gusta -->
+            <div class="gustos">
+                <h3>Lo que me gusta</h3>
+                <ul>
+                    <li>Escuchar música</li>
+                    <li>Dormir</li>
+                    <li>Convivir con mi familia y amigos</li>
+                    <li>Mi deporte favorito es el futbol</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Introducción -->
+        <section class="seccion-intro animar">
+            <h2>¿Qué hace que un deporte sea popular?</h2>
+            <p>La popularidad de un deporte se mide por la cantidad de personas que lo practican, lo siguen como espectadores, su cobertura mediática, la relevancia de sus competiciones y su presencia geográfica. A continuación, presentamos los deportes que, por historia, tradición y alcance, se han convertido en los más importantes del planeta, abarcando desde disciplinas de equipo hasta deportes individuales, con millones de seguidores en todos los continentes.</p>
+        </section>
+
+        <!-- Sección de deportes -->
+        <div id="deportes" class="grid-deportes">
+
+            <!-- Fútbol -->
+            <article class="tarjeta-deporte animar">
+                <img src="img/futbol.jpg" alt="Partido de fútbol en estadio lleno" class="imagen-deporte">
+                <div class="contenido-deporte">
+                    <h2>Fútbol</h2>
+                    <p>Conocido como el "deporte rey", es indiscutiblemente el más practicado y seguido en todo el mundo.</p>
+                    
+                    <div class="datos-basicos">
+                        <div class="dato">Seguidores: <span>3.500 - 4.000 millones</span></div>
+                        <div class="dato">Competición: <span>Copa Mundial FIFA</span></div>
+                        <div class="dato">Origen: <span>1863, Inglaterra</span></div>
+                        <div class="dato">Jugadores: <span>11 por equipo</span></div>
+                    </div>
+
+                    <!-- Pestañas -->
+                    <div class="pestanas">
+                        <button class="pestana activa" data-tab="historia-futbol">Historia</button>
+                        <button class="pestana" data-tab="reglas-futbol">Reglas</button>
+                    </div>
+
+                    <div class="contenido-pestana activo" id="historia-futbol">
+                        <span class="subtitulo">Historia breve:</span>
+                        <p>Existen registros de juegos con pelota desde civilizaciones antiguas, pero su forma moderna se codificó en Inglaterra en 1863 con la fundación de la Football Association. Desde entonces, se expandió globalmente gracias a colonias, comercio y competiciones internacionales.</p>
+                    </div>
+                    <div class="contenido-pestana" id="reglas-futbol">
+                        <span class="subtitulo">Reglas básicas:</span>
+                        <ul>
+                            <li>El objetivo es introducir el balón en la portería contraria (gol).</li>
+                            <li>No se puede tocar el balón con las manos o brazos, salvo el portero dentro de su área.</li>
+                            <li>El partido dura 90 minutos, divididos en dos tiempos de 45.</li>
+                            <li>Se juega sobre campo rectangular con metas en cada extremo.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Críquet -->
+            <article class="tarjeta-deporte animar">
+                <img src="img/cricket.png" alt="Jugadores de críquet en acción" class="imagen-deporte">
+                <div class="contenido-deporte">
+                    <h2>Críquet</h2>
+                    <p>Deporte predominante en el subcontinente indio, Australia, Reino Unido y partes de África y el Caribe.</p>
+                    
+                    <div class="datos-basicos">
+                        <div class="dato">Seguidores: <span>2.500 millones</span></div>
+                        <div class="dato">Competición: <span>Copa Mundial ICC</span></div>
+                        <div class="dato">Origen: <span>S. XVI, Inglaterra</span></div>
+                        <div class="dato">Jugadores: <span>11 por equipo</span></div>
+                    </div>
+
+                    <div class="pestanas">
+                        <button class="pestana activa" data-tab="historia-cricket">Historia</button>
+                        <button class="pestana" data-tab="reglas-cricket">Reglas</button>
+                    </div>
+
+                    <div class="contenido-pestana activo" id="historia-cricket">
+                        <span class="subtitulo">Historia breve:</span>
+                        <p>Se cree que comenzó como juego infantil en el sudeste de Inglaterra. Se volvió deporte de adultos en el siglo XVII y se difundió por el Imperio Británico. Hoy cuenta con formatos cortos (T20) que lo han hecho más dinámico y popular.</p>
+                    </div>
+                    <div class="contenido-pestana" id="reglas-cricket">
+                        <span class="subtitulo">Reglas básicas:</span>
+                        <ul>
+                            <li>Se usa bate, pelota y tres estacas en cada extremo del campo.</li>
+                            <li>Un equipo batea y el otro defiende lanzando la pelota.</li>
+                            <li>El objetivo es anotar más carreras que el rival.</li>
+                            <li>Las partidas van desde 3 horas hasta 5 días en formato tradicional.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Baloncesto -->
+            <article class="tarjeta-deporte animar">
+                <img src="img/baloncesto.png" alt="Jugadores de baloncesto saltando para anotar" class="imagen-deporte">
+                <div class="contenido-deporte">
+                    <h2>Baloncesto</h2>
+                    <p>Deporte dinámico, rápido y espectacular. Creado en Estados Unidos, hoy es uno de los más practicados en todo el mundo.</p>
+                    
+                    <div class="datos-basicos">
+                        <div class="dato">Seguidores: <span>2.200 millones</span></div>
+                        <div class="dato">Competición: <span>NBA y JJ.OO.</span></div>
+                        <div class="dato">Origen: <span>1891, Estados Unidos</span></div>
+                        <div class="dato">Jugadores: <span>5 por equipo</span></div>
+                    </div>
+
+                    <div class="pestanas">
+                        <button class="pestana activa" data-tab="historia-basket">Historia</button>
+                        <button class="pestana" data-tab="reglas-basket">Reglas</button>
+                    </div>
+
+                    <div class="contenido-pestana activo" id="historia-basket">
+                        <span class="subtitulo">Historia breve:</span>
+                        <p>Lo inventó el profesor James Naismith para mantener activos a sus alumnos en invierno. En pocas décadas se extendió por América y luego al resto del mundo. La NBA lo convirtió en un fenómeno global mediático.</p>
+                    </div>
+                    <div class="contenido-pestana" id="reglas-basket">
+                        <span class="subtitulo">Reglas básicas:</span>
+                        <ul>
+                            <li>Se intenta introducir el balón en un aro elevado situado en cada extremo.</li>
+                            <li>Se puede avanzar botando el balón o pasándolo.</li>
+                            <li>El partido dura 40 o 48 minutos, divididos en cuartos.</li>
+                            <li>Se anotan 1, 2 o 3 puntos según la distancia del lanzamiento.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Hockey sobre césped -->
+            <article class="tarjeta-deporte animar">
+                <img src="img/Hockey sobre césped.png" alt="Partido de hockey sobre césped" class="imagen-deporte">
+                <div class="contenido-deporte">
+                    <h2>Hockey césped</h2>
+                    <p>Uno de los deportes de equipo más antiguos y extendidos, con gran fuerza en Europa, Asia y Oceanía.</p>
+                    
+                    <div class="datos-basicos">
+                        <div class="dato">Seguidores: <span>2.000 millones</span></div>
+                        <div class="dato">Competición: <span>Copa Mundial FIH</span></div>
+                        <div class="dato">Origen: <span>Antigüedad, versión moderna 1886</span></div>
+                        <div class="dato">Jugadores: <span>11 por equipo</span></div>
+                    </div>
+
+                    <div class="pestanas">
+                        <button class="pestana activa" data-tab="historia-hockey">Historia</button>
+                        <button class="pestana" data-tab="reglas-hockey">Reglas</button>
+                    </div>
+
+                    <div class="contenido-pestana activo" id="historia-hockey">
+                        <span class="subtitulo">Historia breve:</span>
+                        <p>Hay evidencias de juegos similares hace más de 4.000 años en Egipto y Persia. Su versión moderna se estructuró en Inglaterra a mediados del siglo XIX y se difundió ampliamente por Europa y las colonias británicas.</p>
+                    </div>
+                    <div class="contenido-pestana" id="reglas-hockey">
+                        <span class="subtitulo">Reglas básicas:</span>
+                        <ul>
+                            <li>Se juega con palos curvos y una pelota dura y pequeña.</li>
+                            <li>El objetivo es golpear la pelota dentro de la portería contraria.</li>
+                            <li>Solo se puede tocar la pelota con el palo; no con el cuerpo ni los pies.</li>
+                            <li>El partido dura 4 tiempos de 15 minutos cada uno.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Tenis -->
+            <article class="tarjeta-deporte animar">
+                <img src="img/tenis.jpg" alt="Cancha de tenis con raqueta y pelota" class="imagen-deporte">
+                <div class="contenido-deporte">
+                    <h2>Tenis</h2>
+                    <p>Principal deporte individual del mundo, con gran cobertura mediática y tradición en todos los continentes.</p>
+                    
+                    <div class="datos-basicos">
+                        <div class="dato">Seguidores: <span>1.500 millones</span></div>
+                        <div class="dato">Competición: <span>Grand Slams</span></div>
+                        <div class="dato">Origen: <span>S. XIX, Reino Unido</span></div>
+                        <div class="dato">Modalidades: <span>Individual, dobles</span></div>
+                    </div>
+
+                    <div class="pestanas">
+                        <button class="pestana activa" data-tab="historia-tenis">Historia</button>
+                        <button class="pestana" data-tab="reglas-tenis">Reglas</button>
+                    </div>
+
+                    <div class="contenido-pestana activo" id="historia-tenis">
+                        <span class="subtitulo">Historia breve:</span>
+                        <p>Proviene de juegos de pelota de la Francia medieval. La versión moderna nació en Inglaterra. Wimbledon, el torneo más antiguo, comenzó en 1877. Se convirtió en profesional en el siglo XX y hoy es un fenómeno global.</p>
+                    </div>
+                    <div class="contenido-pestana" id="reglas-tenis">
+                        <span class="subtitulo">Reglas básicas:</span>
+                        <ul>
+                            <li>Se usa raqueta para golpear la pelota por encima de una red central.</li>
+                            <li>Se divide el campo en dos mitades; cada jugador defiende la suya.</li>
+                            <li>Se gana por puntos, juegos y sets.</li>
+                            <li>Se juega sobre superficies distintas: tierra batida, césped, dura.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Voleibol -->
+            <article class="tarjeta-deporte animar">
+                <img src="img/voleibol.jpg" alt="Jugadores de voleibol en la red" class="imagen-deporte">
+                <div class="contenido-deporte">
+                    <h2>Voleibol</h2>
+                    <p>Deporte muy accesible, de fácil aprendizaje y gran presencia en escuelas, parques y competiciones internacionales.</p>
+                    
+                    <div class="datos-basicos">
+                        <div class="dato">Seguidores: <span>900 millones</span></div>
+                        <div class="dato">Competición: <span>Campeonato Mundial</span></div>
+                        <div class="dato">Origen: <span>1895, Estados Unidos</span></div>
+                        <div class="dato">Jugadores: <span>6 por equipo</span></div>
+                    </div>
+
+                    <div class="pestanas">
+                        <button class="pestana activa" data-tab="historia-voley">Historia</button>
+                        <button class="pestana" data-tab="reglas-voley">Reglas</button>
+                    </div>
+
+                    <div class="contenido-pestana activo" id="historia-voley">
+                        <span class="subtitulo">Historia breve:</span>
+                        <p>Creado por William G. Morgan como alternativa menos física al baloncesto. Se extendió rápido por el mundo gracias a fuerzas armadas y organizaciones deportivas. Entró a los Juegos Olímpicos en 1964.</p>
+                    </div>
+                    <div class="contenido-pestana" id="reglas-voley">
+                        <span class="subtitulo">Reglas básicas:</span>
+                        <ul>
+                            <li>Se pasa el balón por encima de una red alta sin que toque el suelo.</li>
+                            <li>Cada equipo puede tocar el balón máximo 3 veces antes de pasarlo.</li>
+                            <li>No se puede tocar la red ni invadir el campo contrario.</li>
+                            <li>Se juega al mejor de 5 sets; cada set se gana a 25 puntos.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Tabla comparativa -->
+        <section id="comparativa" class="seccion-tabla animar">
+            <h2>Tabla Comparativa General</h2>
+            <table class="tabla-comparativa" id="tablaDeportes">
+                <thead>
+                    <tr>
+                        <th onclick="ordenarTabla(0)">Deporte ↕</th>
+                        <th onclick="ordenarTabla(1)">Seguidores aprox. ↕</th>
+                        <th onclick="ordenarTabla(2)">Jugadores ↕</th>
+                        <th onclick="ordenarTabla(3)">¿Es Olímpico? ↕</th>
+                        <th onclick="ordenarTabla(4)">Región principal ↕</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Fútbol</td>
+                        <td>3.500 - 4.000 M</td>
+                        <td>11</td>
+                        <td>Sí</td>
+                        <td>Mundial</td>
+                    </tr>
+                    <tr>
+                        <td>Críquet</td>
+                        <td>2.500 M</td>
+                        <td>11</td>
+                        <td>No</td>
+                        <td>Asia, Reino Unido</td>
+                    </tr>
+                    <tr>
+                        <td>Baloncesto</td>
+                        <td>2.200 M</td>
+                        <td>5</td>
+                        <td>Sí</td>
+                        <td>América, Europa</td>
+                    </tr>
+                    <tr>
+                        <td>Hockey césped</td>
+                        <td>2.000 M</td>
+                        <td>11</td>
+                        <td>Sí</td>
+                        <td>Europa, Asia</td>
+                    </tr>
+                    <tr>
+                        <td>Tenis</td>
+                        <td>1.500 M</td>
+                        <td>1 / 2</td>
+                        <td>Sí</td>
+                        <td>Mundial</td>
+                    </tr>
+                    <tr>
+                        <td>Voleibol</td>
+                        <td>900 M</td>
+                        <td>6</td>
+                        <td>Sí</td>
+                        <td>Mundial</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Datos curiosos -->
+        <section id="curiosidades" class="seccion-curiosidades animar">
+            <h2>Datos Curiosos</h2>
+            <div class="lista-curiosidades">
+                <div class="curiosidad">
+                    <h3>Fútbol</h3>
+                    <p>La Copa Mundial de Fútbol es el evento deportivo con mayor audiencia televisiva del planeta, superando incluso a los Juegos Olímpicos.</p>
+                </div>
+                <div class="curiosidad">
+                    <h3>Críquet</h3>
+                    <p>En su formato tradicional, un partido puede durar hasta 5 días completos y aun así terminar en empate, algo único en deportes principales.</p>
+                </div>
+                <div class="curiosidad">
+                    <h3>Baloncesto</h3>
+                    <p>Originalmente se jugaba con una pelota de fútbol y unas cestas de duraznos como canastas, de ahí su nombre.</p>
+                </div>
+                <div class="curiosidad">
+                    <h3>Tenis</h3>
+                    <p>El sistema de puntuación (15, 30, 40) proviene de la numeración usada en relojes antiguos, donde cada cuarto representaba 15 minutos.</p>
+                </div>
+                <div class="curiosidad">
+                    <h3>Voleibol</h3>
+                    <p>Es uno de los pocos deportes donde el balón nunca debe tocar el suelo durante el juego activo, lo que lo hace muy dinámico.</p>
+                </div>
+                <div class="curiosidad">
+                    <h3>Hockey</h3>
+                    <p>Es uno de los deportes más antiguos registrados; se encontraron dibujos en tumbas egipcias de hace 4.000 años con figuras jugando algo similar.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Referencias Bibliográficas -->
+        <section id="referencias" class="seccion-referencias animar">
+            <h2>Referencias Bibliográficas</h2>
+            <ul class="lista-referencias">
+                <li>
+                    Federación Internacional de Fútbol Asociación (FIFA). (2024). <i>Historia y Estadísticas de la Copa Mundial FIFA</i>. Recuperado de https://www.fifa.com/es
+                </li>
+                <li>
+                    Federación Internacional de Críquet (ICC). (2023). <i>Desarrollo Global y Popularidad del Críquet</i>. Recuperado de https://www.icc-cricket.com
+                </li>
+                <li>
+                    Federación Internacional de Baloncesto (FIBA). (2024). <i>Estudio de Alcance y Práctica del Baloncesto en el Mundo</i>. Recuperado de https://www.fiba.basketball/es
+                </li>
+                <li>
+                    Federación Internacional de Hockey (FIH). (2023). <i>Origen y Evolución del Hockey sobre Césped</i>. Recuperado de https://www.fih.ch
+                </li>
+                <li>
+                    Asociación de Tenis Internacional (ATP / WTA). (2024). <i>Historia y Estructura de los Torneos Grand Slam</i>. Recuperado de https://www.atptour.com y https://www.wtatennis.com
+                </li>
+                <li>
+                    Federación Internacional de Voleibol (FIVB). (2023). <i>Informe Global de Popularidad y Práctica del Voleibol</i>. Recuperado de https://www.fivb.com/es
+                </li>
+                <li>
+                    Encyclopædia Britannica. (2024). <i>Historia de los Deportes: Orígenes y Evolución</i>. Recuperado de https://www.britannica.com/deportes
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <div class="footer-contenido">
+            <p><strong>Proyecto Final: Los deportes más populares del mundo</strong></p>
+            <p>Página elaborada por: Ruben Garay Medina.</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.7;">© 2026 - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Efecto menú al hacer scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('menu');
+            const btnArriba = document.getElementById('btnArriba');
+            
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+                btnArriba.classList.add('activo');
+            } else {
+                nav.classList.remove('scrolled');
+                btnArriba.classList.remove('activo');
+            }
+        });
+
+        // Botón volver arriba
+        document.getElementById('btnArriba').addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Animación al hacer scroll
+        const elementosAnimar = document.querySelectorAll('.animar');
+        
+        function mostrarElementos() {
+            const alturaVentana = window.innerHeight;
+            elementosAnimar.forEach(el => {
+                const elementoArriba = el.getBoundingClientRect().top;
+                if (elementoArriba < alturaVentana - 100) {
+                    el.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', mostrarElementos);
+        window.addEventListener('load', mostrarElementos);
+
+        // Sistema de pestañas
+        const pestanas = document.querySelectorAll('.pestana');
+        pestanas.forEach(pestana => {
+            pestana.addEventListener('click', function() {
+                const id = this.getAttribute('data-tab');
+                const contenedor = this.parentElement.parentElement;
+                
+                // Cambiar activo en pestañas
+                contenedor.querySelectorAll('.pestana').forEach(p => p.classList.remove('activa'));
+                this.classList.add('activa');
+                
+                // Cambiar contenido
+                contenedor.querySelectorAll('.contenido-pestana').forEach(c => c.classList.remove('activo'));
+                contenedor.querySelector('#' + id).classList.add('activo');
+            });
+        });
+
+        // Ordenar tabla
+        function ordenarTabla(columna) {
+            const tabla = document.getElementById('tablaDeportes');
+            let filas = Array.from(tabla.querySelectorAll('tbody tr'));
+            let indice = columna;
+            let ordenAscendente = tabla.dataset.orden === 'asc';
+            
+            filas.sort((a, b) => {
+                let valA = a.children[indice].textContent.trim();
+                let valB = b.children[indice].textContent.trim();
+
+                // Convertir a número si es posible
+                if (!isNaN(parseFloat(valA.replace(/[^0-9.]/g, '')))) {
+                    valA = parseFloat(valA.replace(/[^0-9.]/g, ''));
+                    valB = parseFloat(valB.replace(/[^0-9.]/g, ''));
+                }
+
+                if (valA < valB) return ordenAscendente ? -1 : 1;
+                if (valA > valB) return ordenAscendente ? 1 : -1;
+                return 0;
+            });
+
+            tabla.dataset.orden = ordenAscendente ? 'desc' : 'asc';
+            tabla.querySelector('tbody').innerHTML = '';
+            filas.forEach(fila => tabla.querySelector('tbody').appendChild(fila));
+        }
+    </script>
+</body>
+</html>
