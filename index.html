@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deportes más Populares del Mundo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fef9e7 0%, #fce4ec 50%, #e8f4fd 100%);
+            color: #2d3436;
+            line-height: 1.7;
+            padding-top: 70px;
+        }
+
+        /* --- MENÚ DE NAVEGACIÓN --- */
+        nav {
+            background: linear-gradient(90deg, #ff5722, #e91e63, #673ab7);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .nav-contenedor {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: white;
+            font-weight: bold;
+            font-size: 1.4rem;
+            text-decoration: none;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        /* Logo usando tu imagen existente */
+        .logo img {
+            height: 48px;
+            width: auto;
+            border-radius: 6px;
+            background: white;
+            padding: 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            object-fit: contain;
+        }
+
+        .menu {
+            display: flex;
+            gap: 1.8rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 0;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .menu a:hover {
+            color: #ffeb3b;
+            border-bottom: 2px solid #ffeb3b;
+            transform: scale(1.05);
+        }
+
+        /* --- ENCABEZADO --- */
+        header {
+            background: linear-gradient(120deg, #2196f3, #00bcd4, #4caf50);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 0;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        /* --- CONTENEDOR GENERAL --- */
+        .contenedor {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* --- ESTILO DE SECCIONES --- */
+        .seccion {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+            padding: 2.5rem;
+            border-left: 6px solid;
+            border-image: linear-gradient(to bottom, #ff5722, #2196f3) 1;
+            transition: transform 0.3s ease;
+        }
+
+        .seccion:hover {
+            transform: translateY(-5px);
+        }
+
+        .seccion h2 {
+            color: #e91e63;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .seccion h2::after {
+            content: '';
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff5722, #673ab7);
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        /* --- ACERCA DE MÍ --- */
+        .datos-personales p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            padding: 0.5rem 0;
+        }
+
+        .datos-personales strong {
+            color: #673ab7;
+            min-width: 160px;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        /* --- TARJETAS DE DEPORTES --- */
+        .deporte {
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+            margin-bottom: 2.5rem;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 0;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+
+        .deporte:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+            border-color: #ff9800;
+            transform: scale(1.01);
+        }
+
+        .deporte img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            filter: brightness(0.95);
+            transition: filter 0.3s ease;
+        }
+
+        .deporte:hover img {
+            filter: brightness(1.05);
+        }
+
+        .info-deporte {
+            padding: 2rem;
+            background: linear-gradient(to right, #fffdf9, #f8fdff);
+        }
+
+        .info-deporte h3 {
+            color: #2196f3;
+            margin-bottom: 1.2rem;
+            font-size: 2rem;
+            border-bottom: 2px solid #ffeb3b;
+            display: inline-block;
+            padding-bottom: 0.3rem;
+        }
+
+        .info-deporte p {
+            margin-bottom: 1.2rem;
+            font-size: 1.05rem;
+            text-align: justify;
+            color: #34495e;
+        }
+
+        .datos-clave {
+            background: linear-gradient(135deg, #fff3e0, #e3f2fd);
+            padding: 1.3rem;
+            border-radius: 12px;
+            margin-top: 1.2rem;
+            border-left: 5px solid #4caf50;
+            line-height: 1.9;
+        }
+
+        .datos-clave strong {
+            color: #d84315;
+        }
+
+        /* --- REFERENCIAS --- */
+        .referencias-lista {
+            list-style: none;
+            padding-left: 0;
+            line-height: 1.9;
+            font-size: 1rem;
+        }
+
+        .referencias-lista li {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+            padding: 0.8rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #e91e63;
+            transition: background 0.2s ease;
+        }
+
+        .referencias-lista li:hover {
+            background: #fff3f8;
+        }
+
+        /* --- PIE DE PÁGINA --- */
+        footer {
+            background: linear-gradient(90deg, #673ab7, #e91e63, #ff5722);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-radius: 30px 30px 0 0;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+        }
+
+        footer p {
+            font-size: 1.1rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        /* --- ADAPTACIÓN PARA MÓVILES --- */
+        @media (max-width: 768px) {
+            .nav-contenedor {
+                flex-direction: column;
+                height: auto;
+                padding: 1rem;
+            }
+            .menu {
+                margin-top: 0.8rem;
+                justify-content: center;
+                gap: 1rem;
+            }
+            body {
+                padding-top: 110px;
+            }
+            header h1 {
+                font-size: 1.9rem;
+            }
+            .deporte {
+                grid-template-columns: 1fr;
+            }
+            .deporte img {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <nav>
+        <div class="nav-contenedor">
+            <a href="#" class="logo">
+                <!-- Usa tu imagen existente de la carpeta img -->
+                <img src="img/logo.png" alt="Logo Deportes Mundiales">
+                Deportes Mundiales
+            </a>
+            <ul class="menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#acerca">Acerca de mí</a></li>
+                <li><a href="#deportes">Deportes</a></li>
+                <li><a href="#referencias">Referencias</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="inicio">
+        <h1>Los Deportes más Populares del Mundo</h1>
+        <p>Historia, reglas y características de las disciplinas que unen a millones de personas</p>
+    </header>
+
+    <div class="contenedor">
+
+        <!-- ACERCA DE MÍ -->
+        <section class="seccion" id="acerca">
+            <h2>Acerca de mí</h2>
+            <div class="datos-personales">
+                <p><strong>Nombre completo:</strong> Ruben Garay Medina</p>
+                <p><strong>Grado y Semestre:</strong> Bachillerato / 6° Semestre</p>
+                <p><strong>Institución:</strong> CEMSaD Durango</p>
+                <p><strong>Me gusta:</strong> Me gusta comer tacos ,hamburguesas y pizza , me gusta escuchar música de preferencia pop-rock, me gusta jugar videojuegos en mi telefono, me gustar ver luchas de UFC, me gusta venir a la escuela para convivir con mis compañeros, me gusta el dinero .</p>
+            </div>
+        </section>
+
+        <!-- DEPORTES -->
+        <section class="seccion" id="deportes">
+            <h2>Deportes más populares</h2>
+
+            <!-- Fútbol -->
+            <div class="deporte">
+                <img src="img/futbol.jpg" alt="Partido de fútbol">
+                <div class="info-deporte">
+                    <h3>Fútbol</h3>
+                    <p>Conocido como el deporte rey, es la disciplina con mayor cantidad de seguidores en todo el planeta, presente en casi todos los países. No solo es un juego, sino un fenómeno social que une culturas, genera emociones y enseña valores como el respeto, la disciplina y el trabajo en equipo.</p>
+                    <div class="datos-clave">
+                        <strong>Origen y fundación:</strong> Reglas oficiales establecidas en <strong>1863</strong> en Inglaterra, aunque sus orígenes se remontan a juegos antiguos en varias civilizaciones.<br>
+                        <strong>Seguidores estimados:</strong> Más de 3.500 millones<br>
+                        <strong>Reglas básicas:</strong> Dos equipos de 11 jugadores. Solo el portero puede tocar el balón con las manos dentro de su área. El objetivo es introducir el balón en la portería contraria. El partido dura 90 minutos divididos en dos tiempos de 45 minutos.<br>
+                        <strong>Competición principal:</strong> Copa Mundial de la FIFA
+                    </div>
+                </div>
+            </div>
+
+            <!-- Críquet -->
+            <div class="deporte">
+                <img src="img/cricket.png" alt="Partido de críquet">
+                <div class="info-deporte">
+                    <h3>Críquet</h3>
+                    <p>Muy popular en el sur de Asia, Reino Unido, Australia y el Caribe. Es un deporte de gran estrategia y resistencia, donde la paciencia y la técnica son más importantes que la velocidad pura. Para millones de personas es mucho más que un juego: es parte de su identidad cultural.</p>
+                    <div class="datos-clave">
+                        <strong>Origen y fundación:</strong> Primeras reglas oficiales redactadas en <strong>1788</strong> en Inglaterra.<br>
+                        <strong>Seguidores estimados:</strong> Más de 2.500 millones<br>
+                        <strong>Reglas básicas:</strong> Dos equipos de 11 jugadores. Un equipo intenta anotar carreras golpeando la pelota, mientras el otro lanza y defiende. La duración varía desde unas pocas horas hasta 5 días en partidos tradicionales.<br>
+                        <strong>Competición principal:</strong> Copa Mundial de Críquet
+                    </div>
+                </div>
+            </div>
+
+            <!-- Baloncesto -->
+            <div class="deporte">
+                <img src="img/baloncesto.png" alt="Jugadores de baloncesto">
+                <div class="info-deporte">
+                    <h3>Baloncesto</h3>
+                    <p>Deporte dinámico, rápido y emocionante, creado para practicarse en espacios cerrados durante el invierno. Hoy es uno de los deportes con mayor crecimiento mundial, muy seguido por jóvenes y con una gran presencia en redes sociales y medios de comunicación.</p>
+                    <div class="datos-clave">
+                        <strong>Origen y fundación:</strong> Inventado en <strong>1891</strong> por James Naismith en Estados Unidos.<br>
+                        <strong>Seguidores estimados:</strong> Más de 2.200 millones<br>
+                        <strong>Reglas básicas:</strong> Dos equipos de 5 jugadores. El objetivo es lanzar el balón a través del aro contrario para sumar puntos. Se avanza botando el balón. El partido dura 40 o 48 minutos según la competición.<br>
+                        <strong>Competición principal:</strong> NBA y Torneos Olímpicos
+                    </div>
+                </div>
+            </div>
+
+            <!-- Béisbol -->
+            <div class="deporte">
+                <img src="img/beisbol.jpg" alt="Partido de béisbol">
+                <div class="info-deporte">
+                    <h3>Béisbol</h3>
+                    <p>Deporte de gran tradición en América del Norte, el Caribe y Asia. Combina fuerza, concentración y estrategia. Es muy popular en México, donde cuenta con ligas profesionales y seguidores muy fieles que lo consideran parte de su cultura.</p>
+                    <div class="datos-clave">
+                        <strong>Origen y fundación:</strong> Reglas modernas establecidas en <strong>1845</strong> en Estados Unidos.<br>
+                        <strong>Seguidores estimados:</strong> Más de 500 millones<br>
+                        <strong>Reglas básicas:</strong> Dos equipos de 9 jugadores. Un equipo lanza y defiende, mientras el otro batea. El objetivo es recorrer las cuatro bases para anotar carreras. El partido consta de 9 entradas completas.<br>
+                        <strong>Competición principal:</strong> Serie Mundial y Clásico Mundial
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hockey sobre césped -->
+            <div class="deporte">
+                <img src="img/Hockey%20sobre%20césped.png" alt="Partido de hockey sobre césped">
+                <div class="info-deporte">
+                    <h3>Hockey sobre césped</h3>
+                    <p>Uno de los deportes más antiguos que aún se practican. Es muy rápido, requiere gran coordinación y resistencia física. Destaca por ser uno de los deportes donde las mujeres han logrado una igualdad de competición muy destacada a nivel mundial.</p>
+                    <div class="datos-clave">
+                        <strong>Origen y fundación:</strong> Reglas modernas definidas en <strong>1886</strong> en Inglaterra.<br>
+                        <strong>Seguidores estimados:</strong> Más de 2.000 millones<br>
+                        <strong>Reglas básicas:</strong> Dos equipos de 11 jugadores. Se usa un palo especial para golpear la pelota y anotar en la portería contraria. El partido dura 70 minutos divididos en dos tiempos.<br>
+                        <strong>Competición principal:</strong> Copa Mundial de Hockey
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tenis -->
+            <div class="deporte">
+                <img src="img/tenis.jpg" alt="Cancha de tenis y raqueta">
+                <div class="info-deporte">
+                    <h3>Tenis</h3>
+                    <p>Deporte elegante y muy completo, que se puede practicar en cualquier edad. Se juega en diferentes superficies: arcilla, césped o pista dura, lo que cambia la dinámica del juego. Es uno de los deportes con mayor cobertura mediática y premios económicos del mundo.</p>
+                    <div class="datos-clave">
+                        <strong>Origen y fundación:</strong> Versión moderna creada en <strong>1873</strong> en Inglaterra.<br>
+                        <strong>Seguidores estimados:</strong> Más de 1.500 millones<br>
+                        <strong>Reglas básicas:</strong> Se puede jugar individual o por parejas. El objetivo es golpear la pelota para que toque el suelo en el campo contrario sin que el rival la devuelva. Se disputa por puntos, juegos y sets.<br>
+                        <strong>Competición principal:</strong> Torneos de Grand Slam
+                    </div>
+                </div>
+            </div>
+
+            <!-- Voleibol -->
+            <div class="deporte">
+                <img src="img/voleibol.jpg" alt="Jugadores de voleibol en acción">
+                <div class="info-deporte">
+                    <h3>Voleibol</h3>
+                    <p>Deporte accesible, dinámico y muy practicado en escuelas, parques y playas. Es ideal para aprender a trabajar en equipo, ya que ningún jugador puede ganar solo. También tiene su versión en la arena, que es muy popular en competiciones internacionales.</p>
+                    <div class="datos-clave">
+                        <strong>Origen y fundación:</strong> Creado en <strong>1895</strong> en Estados Unidos por William G. Morgan.<br>
+                        <strong>Seguidores estimados:</strong> Más de 900 millones<br>
+                        <strong>Reglas básicas:</strong> Dos equipos de 6 jugadores. El balón se pasa por encima de una red sin que toque el suelo; cada equipo puede dar hasta tres toques antes de enviarlo al campo contrario. Se juega por sets.<br>
+                        <strong>Competición principal:</strong> Campeonato Mundial de Voleibol
+                    </div>
+                </div>
+            </div>
+
+            <!-- Natación -->
+            <div class="deporte">
+                <img src="img/natacion.jpg" alt="Competencia de natación">
+                <div class="info-deporte">
+                    <h3>Natación</h3>
+                    <p>Considerado el deporte más completo que existe, ya que trabaja todos los músculos del cuerpo sin dañar las articulaciones. Mejora la respiración, la resistencia y la salud cardiovascular. Se practica tanto por diversión como a nivel competitivo desde edades muy tempranas.</p>
+                    <div class="datos-clave">
+                        <strong>Origen y fundación:</strong> Competiciones organizadas modernas iniciadas en <strong>1837</strong> en Inglaterra.<br>
+                        <strong>Seguidores estimados:</strong> Más de 400 millones<br>
+                        <strong>Reglas básicas:</strong> Se compite en diferentes estilos: libre, espalda, pecho y mariposa. El objetivo es recorrer la distancia establecida en el menor tiempo posible. Es deporte olímpico desde sus primeras ediciones.<br>
+                        <strong>Competición principal:</strong> Campeonatos Mundiales y Juegos Olímpicos
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REFERENCIAS -->
+        <section class="seccion" id="referencias">
+            <h2>Referencias Bibliográficas</h2>
+            <ul class="referencias-lista">
+                <li>Federación Internacional de Fútbol Asociación (FIFA). (2025). <em>Historia y reglamento del fútbol</em>. Recuperado de https://www.fifa.com</li>
+                <li>Comité Olímpico Internacional (COI). (2024). <em>Los deportes en los Juegos Olímpicos</em>. Recuperado de https://olympics.com/es/deportes</li>
+                <li>Enciclopedia Británica. (2025). <em>Deportes más populares del mundo</em>. Recuperado de https://www.britannica.com/sports</li>
+                <li>Organización de las Naciones Unidas para la Educación, la Ciencia y la Cultura (UNESCO). (2023). <em>El deporte como herramienta de desarrollo social</em>. Recuperado de https://es.unesco.org</li>
+                <li>Consejo Mundial del Deporte. (2024). <em>Estadísticas de participación deportiva mundial</em>. Recuperado de https://www.worldsport.org</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>© 2026 | Página elaborada por Ruben Garay Medina | CEMSaD Durango </p>
+    </footer>
+
+</body>
+</html>
